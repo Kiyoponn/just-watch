@@ -1,0 +1,234 @@
+import Icon from './Icon'
+import { Button } from './ui/button'
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage
+} from './ui/form'
+import { Input } from './ui/input'
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue
+} from './ui/select'
+import {
+	Tooltip,
+	TooltipArrow,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger
+} from './ui/tooltip'
+import { formSchema } from '@/lib/schema'
+import updateIframe from '@/lib/update-iframe'
+import { useToast } from '@/lib/use-toast'
+import { cn, device } from '@/lib/utils'
+import type { formValuesType } from '@/types/form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+
+export default function MainForm() {
+	const form = useForm<formValuesType>({
+		resolver: zodResolver(formSchema),
+		defaultValues: {
+			watch: 'movie'
+		}
+	})
+
+	const { toast } = useToast()
+
+	function submit(data: formValuesType) {
+		if (!data.season && !data.episode) {
+			const params = new URLSearchParams([
+				...Object.entries({
+					watch: data.watch,
+					id: data.id
+				})
+			]).toString()
+
+			window.history.pushState(null, '', `?${params}`)
+		} else {
+			const params = new URLSearchParams([...Object.entries(data)]).toString()
+			window.history.pushState(null, '', `?${params}`)
+		}
+
+		updateIframe()
+	}
+
+	function copyToClipboard() {
+		try {
+			const url = new URL(window.location.href).toString()
+			navigator.clipboard.writeText(url)
+
+			toast({
+				variant: 'successful',
+				description: 'Copied to clipboard.'
+			})
+		} catch (error) {
+			import.meta.env.DEV && console.log(error)
+
+			toast({
+				variant: 'destructive',
+				description: 'Something went wrong! Please try again.'
+			})
+		}
+	}
+
+	const { errors, isSubmitting } = form.formState
+
+	return (
+		<Form {...form}>
+			<form
+				id='details-form'
+				className='flex flex-col gap-6'
+				onSubmit={form.handleSubmit(submit)}
+			>
+				<FormField
+					control={form.control}
+					name='watch'
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>What you want to watch?</FormLabel>
+							<FormControl>
+								<Select
+									onValueChange={field.onChange}
+									defaultValue={field.value}
+								>
+									<SelectTrigger className='w-full'>
+										<SelectValue />
+									</SelectTrigger>
+									<SelectContent
+										className={cn(
+											errors?.watch &&
+												'focus-visible:ring-destructive-foreground'
+										)}
+									>
+										<SelectItem value='movie'>Movies</SelectItem>
+										<SelectItem value='tv'>TV Shows</SelectItem>
+									</SelectContent>
+								</Select>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				<FormField
+					control={form.control}
+					name='id'
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel className='flex gap-2 items-center'>
+								Enter ID
+								<TooltipProvider delayDuration={100}>
+									<Tooltip>
+										<TooltipTrigger
+											className={cn(
+												device() === 'tablet' || device() === 'mobile'
+													? 'hidden'
+													: 'inline-block'
+											)}
+										>
+											<Icon
+												name='help-circle'
+												className='h-4 w-4 cursor-pointer'
+											/>
+										</TooltipTrigger>
+										<TooltipContent className='font-light p-2'>
+											<TooltipArrow width={12} height={6} />
+											<p>
+												Get the id from{' '}
+												<a
+													className='underline text-primary'
+													href='https://www.imdb.com/'
+													target='_blank'
+													rel='noreferrer'
+												>
+													IMDb
+												</a>{' '}
+												and{' '}
+												<a
+													className='underline text-primary'
+													href='https://www.themoviedb.org/'
+													target='_blank'
+													rel='noreferrer'
+												>
+													TMDb
+												</a>
+											</p>
+										</TooltipContent>
+									</Tooltip>
+								</TooltipProvider>
+							</FormLabel>
+							<FormControl>
+								<Input
+									type='text'
+									className={cn(
+										errors?.id && 'focus-visible:ring-destructive-foreground'
+									)}
+									{...field}
+								/>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				{form.watch('watch') === 'tv' ? (
+					<>
+						<FormField
+							control={form.control}
+							name='season'
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Season (Optional)</FormLabel>
+									<FormControl>
+										<Input type='number' min={1} {...field} />
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+
+						<FormField
+							control={form.control}
+							name='episode'
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Episode (Optional)</FormLabel>
+									<FormControl>
+										<Input type='number' min={1} {...field} />
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+					</>
+				) : null}
+
+				<div className='flex flex-col gap-2 sm:gap-4 sm:flex-row'>
+					<Button disabled={isSubmitting} type='submit' className='w-full'>
+						Search
+					</Button>
+					<Button
+						type='button'
+						className='w-full'
+						variant={'outline'}
+						onClick={() => {
+							copyToClipboard()
+						}}
+						onKeyDown={() => {
+							copyToClipboard()
+						}}
+					>
+						Share
+					</Button>
+				</div>
+			</form>
+		</Form>
+	)
+}

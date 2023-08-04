@@ -1,0 +1,28 @@
+---
+import ThemeToggle from './ThemeToggle.astro'
+import { Button } from './ui/button'
+---
+
+<header
+  class='border-b backdrop-blur bg-background/75 py-4 w-full sticky top-0 z-50'
+>
+  <nav>
+    <div
+      class='flex md:max-w-3xl mx-auto justify-between container items-center w-full'
+    >
+      <a href='/'>
+        <p class='font-extrabold text-xl tracking-wider'>JustWatch</p>
+      </a>
+      <div class='flex gap-2 sm:gap-4 items-center'>
+        <Button
+          variant={'link'}
+          size={'sm'}
+          className='hidden min-[330px]:block'
+        >
+          How to get id?
+        </Button>
+        <ThemeToggle />
+      </div>
+    </div>
+  </nav>
+</header>

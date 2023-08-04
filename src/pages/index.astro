@@ -1,0 +1,12 @@
+---
+import Form from '@/components/MainForm'
+import VideoPlayer from '@/components/VideoPlayer.astro'
+import Layout from '@/layouts/Layout.astro'
+---
+
+<Layout title='JustWatch'>
+  <main class='w-full container md:max-w-3xl mx-auto flex gap-8 flex-col'>
+    <Form client:only />
+    <VideoPlayer />
+  </main>
+</Layout>

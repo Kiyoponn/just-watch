@@ -1,0 +1,18 @@
+---
+const { class: className } = Astro.props
+---
+
+<iframe
+  allowfullscreen
+  id='video-iframe'
+  class="aspect-video border rounded-lg"
+  style='display: none;'
+  src=''></iframe>
+
+<script>
+  import updateIframe from '@/lib/update-iframe'
+
+  window.onload = () => {
+    updateIframe()
+  }
+</script>

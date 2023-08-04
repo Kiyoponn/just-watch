@@ -1,0 +1,33 @@
+---
+import Navbar from '@/components/Navbar.astro'
+import { Toaster } from '@/components/ui/toaster'
+import '@/styles/global.css'
+interface Props {
+  title: string
+}
+
+import '@fontsource-variable/lexend'
+
+const { title } = Astro.props
+---
+
+<!DOCTYPE html>
+<html lang='en' class="selection:text-background selection:bg-foreground">
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='description' content='Astro description' />
+    <meta name='viewport' content='width=device-width' />
+    <link rel='icon' type='image/svg+xml' href='/favicon.svg' />
+    <meta name='generator' content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body
+    class='min-h-screen bg-background font-lexend scroll-smooth text-foreground'
+  >
+    <div class='flex pb-12 flex-col gap-6 items-center h-full'>
+      <Navbar />
+      <slot />
+    </div>
+    <Toaster client:load />
+  </body>
+</html>
