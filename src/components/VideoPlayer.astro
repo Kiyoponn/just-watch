@@ -1,0 +1,16 @@
+---
+import type { formValuesType } from '@/types/form'
+
+type Props = formValuesType
+
+const props = Astro.props
+
+let vidsrcurl: string = `https://vidsrc.to/embed/${props.watch}/${props.id}`
+
+if (props.season && props.episode) {
+  vidsrcurl = `https://vidsrc.to/embed/${props.watch}/${props.id}/${props.season}/${props.episode}`
+}
+---
+
+<iframe class='aspect-video border w-full' src=`${vidsrcurl}` allowfullscreen>
+</iframe>
