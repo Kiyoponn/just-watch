@@ -5,11 +5,10 @@ import Layout from '@/layouts/Layout.astro'
 ---
 
 <Layout title='Welcome to Astro.'>
-  <main class='w-full container flex gap-2 flex-col'>
+  <main class='w-full pb-16 container md:max-w-4xl mx-auto flex gap-2 flex-col'>
     <Form client:load />
-    <VideoPlayer watch='tv' id='tt5180504' season='1' episode='1' />
-    <!-- <Button className='mx-auto rounded-none min-w-[12rem]' size='sm'>Test</Button> -->
+    <VideoPlayer class='mt-8' />
   </main>
 </Layout>
 
-<script src='@/lib/scripts/index.ts'></script>
+<script></script>

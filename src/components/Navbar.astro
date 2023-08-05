@@ -2,9 +2,15 @@
 import ThemeToggle from './ThemeToggle.astro'
 ---
 
-<nav class='border-b bg-background py-4 w-full sticky top-0'>
-  <div class='flex justify-between container items-center w-full'>
-    <p class='font-extrabold text-xl tracking-wider'>JustWatch</p>
+<nav
+  class='border-b backdrop-blur bg-background/75 py-4 w-full sticky top-0 z-50'
+>
+  <div
+    class='flex md:max-w-4xl mx-auto justify-between container items-center w-full'
+  >
+    <a href='/'>
+      <p class='font-extrabold text-xl tracking-wider'>JustWatch</p>
+    </a>
     <ThemeToggle />
   </div>
 </nav>

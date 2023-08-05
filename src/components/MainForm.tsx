@@ -1,5 +1,4 @@
 import { Button } from './ui/button'
-import { zodResolver } from '@hookform/resolvers/zod'
 import {
 	Form,
 	FormControl,
@@ -8,6 +7,7 @@ import {
 	FormLabel,
 	FormMessage
 } from './ui/form'
+import { Input } from './ui/input'
 import {
 	Select,
 	SelectContent,
@@ -15,10 +15,11 @@ import {
 	SelectTrigger,
 	SelectValue
 } from './ui/select'
-import { useForm } from 'react-hook-form'
-import type { formValuesType } from '@/types/form'
 import { formSchema } from '@/lib/schema'
-import { Input } from './ui/input'
+import updateIframe from '@/lib/update-iframe'
+import type { formValuesType } from '@/types/form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
 
 export default function MainForm() {
 	const form = useForm<formValuesType>({
@@ -28,11 +29,28 @@ export default function MainForm() {
 		}
 	})
 
-	function submit() {}
+	function submit(data: formValuesType) {
+		if (!data.season && !data.episode) {
+			const params = new URLSearchParams([
+				...Object.entries({
+					watch: data.watch,
+					id: data.id
+				})
+			]).toString()
+
+			window.history.pushState(null, '', `?${params}`)
+		} else {
+			const params = new URLSearchParams([...Object.entries(data)]).toString()
+			window.history.pushState(null, '', `?${params}`)
+		}
+
+		updateIframe()
+	}
 
 	return (
 		<Form {...form}>
 			<form
+				id='details-form'
 				className='flex flex-col gap-6'
 				onSubmit={form.handleSubmit(submit)}
 			>
@@ -43,9 +61,12 @@ export default function MainForm() {
 						<FormItem>
 							<FormLabel>What you want to watch?</FormLabel>
 							<FormControl>
-								<Select>
+								<Select
+									onValueChange={field.onChange}
+									defaultValue={field.value}
+								>
 									<SelectTrigger className='w-full'>
-										<SelectValue placeholder='Select a value' />
+										<SelectValue />
 									</SelectTrigger>
 									<SelectContent>
 										<SelectItem value='movie'>Movies</SelectItem>
@@ -65,13 +86,46 @@ export default function MainForm() {
 						<FormItem>
 							<FormLabel>Enter ID</FormLabel>
 							<FormControl>
-								<Input type='text' />
+								<Input type='text' {...field} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
 					)}
 				/>
-				<Button>Search</Button>
+
+				{form.watch('watch') === 'tv' ? (
+					<>
+						<FormField
+							control={form.control}
+							name='season'
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Season (Optional)</FormLabel>
+									<FormControl>
+										<Input type='number' min={1} {...field} />
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+
+						<FormField
+							control={form.control}
+							name='episode'
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Episode (Optional)</FormLabel>
+									<FormControl>
+										<Input type='number' min={1} {...field} />
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+					</>
+				) : null}
+
+				<Button type='submit'>Search</Button>
 			</form>
 		</Form>
 	)

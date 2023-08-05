@@ -15,14 +15,6 @@ export const formSchema = z.object({
 		})
 		.trim()
 		.toLowerCase(),
-	season: z
-		.number({
-			invalid_type_error: 'Entered season number should be a number.'
-		})
-		.optional(),
-	episode: z
-		.number({
-			invalid_type_error: 'Entered episode number should be a number.'
-		})
-		.optional()
+	season: z.string().optional(),
+	episode: z.string().optional()
 })
