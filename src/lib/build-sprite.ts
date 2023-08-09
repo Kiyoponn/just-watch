@@ -1,19 +1,13 @@
-import { promises as fs } from 'node:fs'
-import * as path from 'node:path'
 import { glob } from 'glob'
 import { parse } from 'node-html-parser'
+import { promises as fs } from 'node:fs'
+import * as path from 'node:path'
 
 const cwd = process.cwd()
 
-/**
- * TODO: Change path to where your icons are located
- */
 const inputDir = path.join(cwd, 'src', 'assets', 'icons')
 const inputDirRelative = path.relative(cwd, inputDir)
 
-/**
- * TODO: Change path to where you want to store `sprite.svg` file
- */
 const outputDir = path.join(cwd, 'public')
 const outputDirRelative = path.relative(cwd, outputDir)
 
@@ -82,9 +76,6 @@ const typesContent = await generateTypes({
 	names: files.map((file) => JSON.stringify(file.replace(/\.svg$/, '')))
 })
 
-/**
- * TODO: Change where you want to store your types
- */
 await writeIfChanged(path.join(cwd, 'src', 'lib', 'names.ts'), typesContent)
 
 async function generateTypes({

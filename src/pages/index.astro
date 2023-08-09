@@ -4,11 +4,9 @@ import VideoPlayer from '@/components/VideoPlayer.astro'
 import Layout from '@/layouts/Layout.astro'
 ---
 
-<Layout title='Welcome to Astro.'>
-  <main class='w-full pb-16 container md:max-w-4xl mx-auto flex gap-2 flex-col'>
+<Layout title='JustWatch'>
+  <main class='w-full pb-16 container md:max-w-4xl mx-auto flex gap-8 flex-col'>
     <Form client:load />
-    <VideoPlayer class='mt-8' />
+    <VideoPlayer />
   </main>
 </Layout>
-
-<script></script>
