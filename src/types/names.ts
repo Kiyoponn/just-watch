@@ -5,3 +5,4 @@ export type IconName =
 	| "chevron-down"
 	| "moon"
 	| "sun"
+	| "x"

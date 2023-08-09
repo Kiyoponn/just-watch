@@ -17,6 +17,7 @@ import {
 } from './ui/select'
 import { formSchema } from '@/lib/schema'
 import updateIframe from '@/lib/update-iframe'
+import { useToast } from '@/lib/use-toast'
 import type { formValuesType } from '@/types/form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -28,6 +29,8 @@ export default function MainForm() {
 			watch: 'movie'
 		}
 	})
+
+	const { toast } = useToast()
 
 	function submit(data: formValuesType) {
 		if (!data.season && !data.episode) {
@@ -45,6 +48,25 @@ export default function MainForm() {
 		}
 
 		updateIframe()
+	}
+
+	function copyToClipboard() {
+		try {
+			const url = new URL(window.location.href).toString()
+			navigator.clipboard.writeText(url)
+
+			toast({
+				variant: 'successful',
+				description: 'Copied to clipboard.'
+			})
+		} catch (error) {
+			import.meta.env.DEV && console.log(error)
+
+			toast({
+				variant: 'destructive',
+				description: 'Something went wrong! Please try again.'
+			})
+		}
 	}
 
 	return (
@@ -125,7 +147,24 @@ export default function MainForm() {
 					</>
 				) : null}
 
-				<Button type='submit'>Search</Button>
+				<div className='flex flex-col gap-2 sm:gap-4 sm:flex-row'>
+					<Button type='submit' className='w-full'>
+						Search
+					</Button>
+					<Button
+						type='button'
+						className='w-full'
+						variant={'outline'}
+						onClick={() => {
+							copyToClipboard()
+						}}
+						onKeyDown={() => {
+							copyToClipboard()
+						}}
+					>
+						Share
+					</Button>
+				</div>
 			</form>
 		</Form>
 	)

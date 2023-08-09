@@ -7,7 +7,7 @@ module.exports = {
 	theme: {
 		container: {
 			center: true,
-			padding: '2rem',
+			padding: '1rem',
 			screens: {
 				'2xl': '1400px'
 			}
@@ -30,6 +30,10 @@ module.exports = {
 				destructive: {
 					DEFAULT: 'hsl(var(--destructive))',
 					foreground: 'hsl(var(--destructive-foreground))'
+				},
+				successful: {
+					DEFAULT: 'hsl(var(--successful))',
+					foreground: 'hsl(var(--successful-foreground))'
 				},
 				muted: {
 					DEFAULT: 'hsl(var(--muted))',

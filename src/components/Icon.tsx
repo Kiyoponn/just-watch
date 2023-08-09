@@ -1,6 +1,6 @@
-import type { SVGProps } from 'react'
 import spriteHref from '/sprite.svg'
 import type { IconName } from '@/types/names'
+import type { SVGProps } from 'react'
 
 export default function Icon({
 	name,
@@ -9,8 +9,8 @@ export default function Icon({
 	name: IconName
 }) {
 	return (
-		<svg {...props}>
-			<title>{name}</title>
+		// rome-ignore lint/a11y/noSvgWithoutTitle: <explanation>
+		<svg {...props} aria-label={name}>
 			<use href={`${spriteHref}#${name}`} />
 		</svg>
 	)
