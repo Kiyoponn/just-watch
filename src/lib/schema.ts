@@ -7,14 +7,17 @@ export const formSchema = z.object({
 	}),
 	id: z
 		.string({
-			required_error: 'Enter the ID from or TMDb.',
+			required_error: 'Enter the ID from IMDb or TMDb.',
 			invalid_type_error: 'Entered ID should be a string.'
 		})
-		.min(1, {
-			message: 'Entered ID should be greater than 1 character.'
-		})
 		.trim()
-		.toLowerCase(),
+		.toLowerCase()
+		.refine((value) => /^(?!^\s+$).+/.test(value), {
+			message: 'Space is not a valid id.'
+		})
+		.refine((value) => /^(\d+$|^tt\d+)$/.test(value), {
+			message: "Invalid id (valid id's are tt1190634 or 569094)."
+		}),
 	season: z.string().optional(),
 	episode: z.string().optional()
 })

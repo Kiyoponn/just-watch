@@ -1,3 +1,4 @@
+import Icon from './Icon'
 import { Button } from './ui/button'
 import {
 	Form,
@@ -15,6 +16,13 @@ import {
 	SelectTrigger,
 	SelectValue
 } from './ui/select'
+import {
+	Tooltip,
+	TooltipArrow,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger
+} from './ui/tooltip'
 import { formSchema } from '@/lib/schema'
 import updateIframe from '@/lib/update-iframe'
 import { useToast } from '@/lib/use-toast'
@@ -106,7 +114,46 @@ export default function MainForm() {
 					name='id'
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Enter ID</FormLabel>
+							<FormLabel className='flex gap-2 items-center'>
+								Enter ID
+								<TooltipProvider delayDuration={100}>
+									<Tooltip>
+										<TooltipTrigger>
+											<Icon
+												name='help-circle'
+												className='h-4 w-4 cursor-pointer'
+											/>
+										</TooltipTrigger>
+										<TooltipContent
+											side='left'
+											align='end'
+											className='font-light p-2'
+										>
+											<TooltipArrow width={12} height={6} />
+											<p>
+												Get the id from{' '}
+												<a
+													className='underline text-primary'
+													href='https://www.imdb.com/'
+													target='_blank'
+													rel='noreferrer'
+												>
+													IMDb
+												</a>{' '}
+												and{' '}
+												<a
+													className='underline text-primary'
+													href='https://www.themoviedb.org/'
+													target='_blank'
+													rel='noreferrer'
+												>
+													TMDb
+												</a>
+											</p>
+										</TooltipContent>
+									</Tooltip>
+								</TooltipProvider>
+							</FormLabel>
 							<FormControl>
 								<Input type='text' {...field} />
 							</FormControl>

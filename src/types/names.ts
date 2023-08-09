@@ -3,6 +3,7 @@
 export type IconName =
 	| "check"
 	| "chevron-down"
+	| "help-circle"
 	| "moon"
 	| "sun"
 	| "x"
