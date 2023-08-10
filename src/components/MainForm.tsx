@@ -26,6 +26,7 @@ import {
 import { formSchema } from '@/lib/schema'
 import updateIframe from '@/lib/update-iframe'
 import { useToast } from '@/lib/use-toast'
+import { cn, device } from '@/lib/utils'
 import type { formValuesType } from '@/types/form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -77,6 +78,8 @@ export default function MainForm() {
 		}
 	}
 
+	const { errors, isSubmitting } = form.formState
+
 	return (
 		<Form {...form}>
 			<form
@@ -98,7 +101,12 @@ export default function MainForm() {
 									<SelectTrigger className='w-full'>
 										<SelectValue />
 									</SelectTrigger>
-									<SelectContent>
+									<SelectContent
+										className={cn(
+											errors?.watch &&
+												'focus-visible:ring-destructive-foreground'
+										)}
+									>
 										<SelectItem value='movie'>Movies</SelectItem>
 										<SelectItem value='tv'>TV Shows</SelectItem>
 									</SelectContent>
@@ -118,17 +126,19 @@ export default function MainForm() {
 								Enter ID
 								<TooltipProvider delayDuration={100}>
 									<Tooltip>
-										<TooltipTrigger>
+										<TooltipTrigger
+											className={cn(
+												device() === 'tablet' || device() === 'mobile'
+													? 'hidden'
+													: 'inline-block'
+											)}
+										>
 											<Icon
 												name='help-circle'
 												className='h-4 w-4 cursor-pointer'
 											/>
 										</TooltipTrigger>
-										<TooltipContent
-											side='left'
-											align='end'
-											className='font-light p-2'
-										>
+										<TooltipContent className='font-light p-2'>
 											<TooltipArrow width={12} height={6} />
 											<p>
 												Get the id from{' '}
@@ -155,7 +165,13 @@ export default function MainForm() {
 								</TooltipProvider>
 							</FormLabel>
 							<FormControl>
-								<Input type='text' {...field} />
+								<Input
+									type='text'
+									className={cn(
+										errors?.id && 'focus-visible:ring-destructive-foreground'
+									)}
+									{...field}
+								/>
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -195,7 +211,7 @@ export default function MainForm() {
 				) : null}
 
 				<div className='flex flex-col gap-2 sm:gap-4 sm:flex-row'>
-					<Button type='submit' className='w-full'>
+					<Button disabled={isSubmitting} type='submit' className='w-full'>
 						Search
 					</Button>
 					<Button

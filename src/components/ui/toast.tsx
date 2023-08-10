@@ -14,7 +14,7 @@ const ToastViewport = React.forwardRef<
 	<ToastPrimitives.Viewport
 		ref={ref}
 		className={cn(
-			'fixed top-0 z-[100] gap-2 flex max-h-screen w-full flex-col-reverse p-4 sm:bottom-0 sm:right-0 sm:top-auto sm:flex-col md:max-w-[420px]',
+			'fixed top-0 z-[100] gap-2 flex max-h-screen w-full flex-col-reverse p-4 sm:bottom-0 sm:right-0 sm:top-auto sm:flex-col md:max-w-[26.25rem]',
 			className
 		)}
 		{...props}
@@ -29,9 +29,9 @@ const toastVariants = cva(
 			variant: {
 				default: 'border bg-background',
 				destructive:
-					'destructive group border-destructive-foreground/10 bg-destructive text-destructive-foreground',
+					'destructive group border-destructive-foreground/10 dark:border-destructive-foreground/20 bg-destructive text-destructive-foreground',
 				successful:
-					'successful group border-successful-foreground/10 bg-successful text-successful-foreground'
+					'successful group border-successful-foreground/10 dark:border-successful-foreground/20 bg-successful text-successful-foreground'
 			}
 		},
 		defaultVariants: {
@@ -79,7 +79,7 @@ const ToastClose = React.forwardRef<
 		className={cn(
 			'absolute right-2 top-2 rounded-md p-1 text-foreground/50 opacity-0 transition-opacity hover:text-foreground focus:opacity-100 focus:outline-none focus:ring-2 group-hover:opacity-100',
 			'group-[.successful]:focus:ring-successful-foreground/30 group-[.successful]:focus:ring-offset-successful group-[.successful]:text-successful-foreground/70 group-[.successful]:hover:text-successful-foreground',
-			'group-[.destructive]:focus:ring-destructive-foreground/30 group-[.destructive]:focus:ring-offset-destructive group-[.destructive]:text-successful-foreground/70 group-[.destructive]:hover:text-successful-foreground',
+			'group-[.destructive]:focus:ring-destructive-foreground/30 group-[.destructive]:focus:ring-offset-destructive group-[.destructive]:text-destructive-foreground/70 group-[.destructive]:hover:text-destructive-foreground',
 			className
 		)}
 		toast-close=''

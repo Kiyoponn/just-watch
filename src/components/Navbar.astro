@@ -1,5 +1,6 @@
 ---
 import ThemeToggle from './ThemeToggle.astro'
+import { Button } from './ui/button'
 ---
 
 <header
@@ -12,7 +13,16 @@ import ThemeToggle from './ThemeToggle.astro'
       <a href='/'>
         <p class='font-extrabold text-xl tracking-wider'>JustWatch</p>
       </a>
-      <ThemeToggle />
+      <div class='flex gap-2 sm:gap-4 items-center'>
+        <Button
+          variant={'link'}
+          size={'sm'}
+          className='hidden min-[330px]:block'
+        >
+          How to get id?
+        </Button>
+        <ThemeToggle />
+      </div>
     </div>
   </nav>
 </header>
