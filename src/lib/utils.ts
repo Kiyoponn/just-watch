@@ -5,17 +5,12 @@ export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs))
 }
 
-export function device() {
-	const ua = navigator.userAgent
-	if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
-		return 'tablet'
+export function hasParams() {
+	const params = new URLSearchParams(window.location.search)
+
+	if (params.size === 0) {
+		return true
 	}
-	if (
-		/Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(
-			ua
-		)
-	) {
-		return 'mobile'
-	}
-	return 'desktop'
+
+	return false
 }

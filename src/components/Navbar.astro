@@ -1,5 +1,6 @@
 ---
 import ThemeToggle from './ThemeToggle.astro'
+import Dialog from './Dialog'
 import { Button } from './ui/button'
 ---
 
@@ -14,13 +15,13 @@ import { Button } from './ui/button'
         <p class='font-extrabold text-xl tracking-wider'>JustWatch</p>
       </a>
       <div class='flex gap-2 sm:gap-4 items-center'>
-        <Button
-          variant={'link'}
-          size={'sm'}
-          className='hidden min-[330px]:block'
-        >
-          How to get id?
-        </Button>
+        <Dialog client:only>
+          <p
+            class='hidden text-sm hover:underline underline-offset-4 min-[330px]:inline-block'
+          >
+            How to get the id?
+          </p>
+        </Dialog>
         <ThemeToggle />
       </div>
     </div>
