@@ -14,9 +14,9 @@ export default function updateIframe() {
 	iframe.style.display = 'block'
 
 	if (!season && !episode) {
-		iframe.src = `https://vidsrc.to/embed/${watch}/${id}`
+		iframe.src = `https://vidsrc.cc/v2/embed/${watch}/${id}`
 		return
 	} else {
-		iframe.src = `https://vidsrc.to/embed/${watch}/${id}/${season}/${episode}`
+		iframe.src = `https://vidsrc.cc/v2/embed/${watch}/${id}/${season}/${episode}`
 	}
 }
